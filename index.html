@@ -288,6 +288,77 @@ h2{
   background:var(--accent);
 }
 
+/* ---------- experience timeline ---------- */
+.timeline{
+  display:flex; flex-direction:column;
+  gap:18px;
+  position:relative;
+  padding-left:22px;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:5px; top:6px; bottom:6px;
+  width:2px;
+  background:var(--line);
+}
+.xp{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:4px;
+}
+.xp::before{
+  content:"";
+  position:absolute;
+  left:-22px; top:7px;
+  width:12px; height:12px;
+  border-radius:50%;
+  background:var(--paper);
+  border:2px solid var(--accent);
+}
+.xp-when{ margin-bottom:2px; }
+.xp-body{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:18px 20px;
+  display:flex; flex-direction:column; gap:8px;
+  transition:transform .18s ease, border-color .18s ease;
+}
+.xp-body:hover{ transform:translateY(-3px); border-color:var(--ink); }
+.xp-body h3{
+  font-weight:700; font-size:1.05rem; letter-spacing:-.01em;
+}
+.xp-org{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px; letter-spacing:.06em;
+  color:var(--accent);
+}
+.xp-body ul{
+  list-style:none;
+  display:flex; flex-direction:column; gap:6px;
+  margin-top:2px;
+}
+.xp-body ul li{
+  font-size:.92rem; color:var(--muted);
+  padding-left:16px; position:relative;
+}
+.xp-body ul li::before{
+  content:""; position:absolute;
+  left:0; top:.62em;
+  width:8px; height:2px; background:var(--accent);
+}
+.xp-body .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.xp-body .tags span{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px; letter-spacing:.06em;
+  color:var(--muted);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:3px 7px;
+}
+
 /* scroll-reveal: elements float into place (respects reduced motion below) */
 .reveal{
   opacity:0;
@@ -392,6 +463,7 @@ footer .fine{ margin-top:40px; }
       <span class="flag" aria-hidden="true">⏱</span>
       <a href="#top">Grid</a>
       <a href="#about">About</a>
+      <a href="#experience">Experience</a>
       <a href="#hardware">Hardware</a>
       <a href="#software">Software</a>
       <a href="#coursework">Coursework</a>
@@ -441,10 +513,42 @@ footer .fine{ margin-top:40px; }
         build, test, iterate. Most of my time goes into engineering for a Formula Electric
         team, writing software that solves real problems, and studying how markets work.
       </p>
-      <p class="reveal">
-        Below are the projects I'm proudest of — split into two sectors: hardware and software —
-        plus the coursework behind them.
-      </p>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section id="experience" data-sector>
+      <div class="eyebrow"><span class="tick"></span><span class="mono">Pit crew — Experience</span></div>
+      <h2>Experience</h2>
+      <p class="section-sub">Internships and roles where I've shipped real work.</p>
+
+      <div class="timeline">
+        <!-- EDIT ME: duplicate an .xp block for each internship -->
+        <article class="xp reveal">
+          <div class="xp-when mono">Summer 20XX</div>
+          <div class="xp-body">
+            <h3>Role / Title</h3>
+            <div class="xp-org">Company or Organization · Location</div>
+            <ul>
+              <li>What you worked on and the impact it had.</li>
+              <li>A tool you built, a problem you solved, or a result you drove.</li>
+            </ul>
+            <div class="tags"><span>Skill</span><span>Tool</span></div>
+          </div>
+        </article>
+
+        <article class="xp reveal">
+          <div class="xp-when mono">20XX – 20XX</div>
+          <div class="xp-body">
+            <h3>Role / Title</h3>
+            <div class="xp-org">Company or Organization · Location</div>
+            <ul>
+              <li>What you worked on and the impact it had.</li>
+              <li>A tool you built, a problem you solved, or a result you drove.</li>
+            </ul>
+            <div class="tags"><span>Skill</span><span>Tool</span></div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <!-- ================= SECTOR 1: HARDWARE ================= -->
@@ -691,7 +795,7 @@ footer .fine{ margin-top:40px; }
     '.hero .avatar', '.hero .avatar-fallback', '.hero .eyebrow', '.hero h1',
     '.hero .tagline', '.hero .creds', '.hero .socials', '.hero .scroll-hint',
     'section .eyebrow', 'section h2', 'section .section-sub', 'section p',
-    'section .card',
+    'section .card', 'section .xp',
     'footer .checker', 'footer .eyebrow', 'footer h2', 'footer .section-sub',
     'footer .email', 'footer .fine'
   ];
