@@ -39,10 +39,12 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* ---------- layout: content sits right of the track gutter ---------- */
+/* ---------- layout: centered column = track gutter + content ---------- */
 .page{
   position:relative;
   padding-left:var(--gutter);
+  max-width:calc(var(--maxw) + var(--gutter));
+  margin:0 auto;            /* centers the whole site on wide screens */
 }
 .wrap{
   max-width:var(--maxw);
