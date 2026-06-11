@@ -802,12 +802,18 @@ footer .fine{ margin-top:40px; }
     update();
   }
 
-  function update(){
-    if (!pathLen) return;
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var t = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-    if (reduced) t = 0; // park the car; show full context statically
+  var targetT  = 0;   // where the car should be (from scroll)
+  var currentT = 0;   // where the car actually is (eased)
+  var raf      = null;
 
+  function computeTarget(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    targetT = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (reduced) targetT = 0;
+  }
+
+  function render(t){
+    if (!pathLen) return;
     var len = t * pathLen;
     raced.style.strokeDashoffset = pathLen - len;
 
@@ -815,15 +821,36 @@ footer .fine{ margin-top:40px; }
     var p2 = raced.getPointAtLength(Math.min(pathLen, len + 2));
     var ang = Math.atan2(p2.y - p.y, p2.x - p.x) * 180 / Math.PI - 90;
     car.setAttribute('transform',
-      'translate(' + p.x + ',' + p.y + ') rotate(' + ang + ')');
+      'translate(' + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ') rotate(' + ang.toFixed(2) + ')');
   }
 
-  var ticking = false;
-  window.addEventListener('scroll', function(){
-    if (!ticking){
-      ticking = true;
-      requestAnimationFrame(function(){ update(); ticking = false; });
+  /* ease currentT toward targetT each frame — smooths out jumpy mobile scroll */
+  function tick(){
+    var diff = targetT - currentT;
+    if (Math.abs(diff) < 0.0004){
+      currentT = targetT;
+      render(currentT);
+      raf = null;             // settled — stop the loop
+      return;
     }
+    currentT += diff * 0.18;  // lerp factor (lower = smoother/slower)
+    render(currentT);
+    raf = requestAnimationFrame(tick);
+  }
+
+  function startLoop(){
+    if (raf == null) raf = requestAnimationFrame(tick);
+  }
+
+  function update(){          // called after track rebuild — snap into place
+    computeTarget();
+    currentT = targetT;
+    render(currentT);
+  }
+
+  window.addEventListener('scroll', function(){
+    computeTarget();
+    startLoop();
   }, { passive:true });
 
   var resizeTimer;
