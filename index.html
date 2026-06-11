@@ -23,6 +23,7 @@
   --accent:  #e10600;   /* the only loud color — used by the car & details */
   --gutter:  56px;      /* width of the track lane (mobile) */
   --maxw:    760px;
+  --navh:    48px;      /* sticky nav height */
 }
 @media (min-width: 700px){
   :root{ --gutter: 96px; }
@@ -53,6 +54,46 @@ body{
 @media (min-width: 700px){
   .wrap{ padding:0 32px 0 24px; }
 }
+
+/* ---------- sticky section nav ("pit wall") ---------- */
+.site-nav{
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  height:var(--navh);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.site-nav::-webkit-scrollbar{ display:none; }
+.site-nav a{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  text-decoration:none;
+  padding:6px 10px;
+  white-space:nowrap;
+  border-radius:4px;
+  transition:color .15s ease;
+}
+.site-nav a:hover, .site-nav a:focus-visible{ color:var(--accent); }
+.site-nav .flag{
+  color:var(--accent);
+  font-weight:500;
+  padding-right:4px;
+}
+
+/* anchors land below the sticky nav */
+section, footer, header.hero{ scroll-margin-top:calc(var(--navh) + 12px); }
 
 /* ---------- track svg (drawn by JS, sits behind everything) ---------- */
 #track-svg{
@@ -87,7 +128,7 @@ body{
 
 /* ---------- hero ---------- */
 header.hero{
-  min-height:92vh;
+  min-height:calc(92vh - var(--navh));
   display:flex; flex-direction:column; justify-content:center;
   padding:80px 0 60px;
   position:relative; z-index:1;
@@ -227,6 +268,26 @@ h2{
 }
 .card a.link:hover{ color:var(--accent); border-color:var(--accent); }
 
+/* coursework list inside cards */
+.card ul{
+  list-style:none;
+  display:flex; flex-direction:column; gap:6px;
+  flex:1;
+}
+.card ul li{
+  font-size:.92rem;
+  color:var(--muted);
+  padding-left:16px;
+  position:relative;
+}
+.card ul li::before{
+  content:"";
+  position:absolute;
+  left:0; top:.62em;
+  width:8px; height:2px;
+  background:var(--accent);
+}
+
 /* scroll-reveal (respects reduced motion below) */
 .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
 .reveal.in{ opacity:1; transform:none; }
@@ -291,6 +352,17 @@ footer .fine{ margin-top:40px; }
 
   <div class="wrap">
 
+    <!-- ================= STICKY SECTION NAV ================= -->
+    <nav class="site-nav" aria-label="Sections">
+      <span class="flag" aria-hidden="true">⏱</span>
+      <a href="#top">Grid</a>
+      <a href="#about">About</a>
+      <a href="#hardware">Hardware</a>
+      <a href="#software">Software</a>
+      <a href="#coursework">Coursework</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
     <!-- ================= HERO / DRIVER PROFILE ================= -->
     <header class="hero" id="top">
       <!-- EDIT ME: swap the fallback for your photo:
@@ -335,7 +407,8 @@ footer .fine{ margin-top:40px; }
         team, writing software that solves real problems, and studying how markets work.
       </p>
       <p class="reveal">
-        Below are the projects I'm proudest of — split into two sectors: hardware and software.
+        Below are the projects I'm proudest of — split into two sectors: hardware and software —
+        plus the coursework behind them.
       </p>
     </section>
 
@@ -402,6 +475,72 @@ footer .fine{ margin-top:40px; }
           <p>Reliable transport built from scratch in Python on the POX framework — handshakes, retransmission, flow control.</p>
           <div class="tags"><span>Python</span><span>Networking</span></div>
           <a class="link" href="#" target="_blank" rel="noopener">View project →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= SECTOR 3: COURSEWORK ================= -->
+    <section id="coursework" data-sector>
+      <div class="eyebrow"><span class="tick"></span><span class="mono">Sector 03 — Coursework · UC Berkeley</span></div>
+      <h2>Coursework</h2>
+      <p class="section-sub">Eight UC Berkeley courses, taken from Fall 2024 onward alongside a full high school load.</p>
+
+      <div class="grid">
+        <!-- EDIT ME: replace placeholder courses + terms with your actual list -->
+        <article class="card reveal">
+          <span class="num">CW / 01 · Fall 2024</span>
+          <h3>CS168 — Internet Architecture &amp; Protocols</h3>
+          <p>TCP/IP, routing (distance vector, link-state, BGP), DNS, link layer. Built a TCP implementation from scratch on the POX framework.</p>
+          <div class="tags"><span>Networking</span><span>Python</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 02 · Fall 2024</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 03 · Spring 2025</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 04 · Spring 2025</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 05 · Fall 2025</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 06 · Fall 2025</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 07 · Spring 2026</span>
+          <h3>CS188 — Introduction to Artificial Intelligence</h3>
+          <p>Search, MDPs, Q-learning, Bayesian networks, probabilistic inference, and neural networks (CNNs, RNNs, attention) in PyTorch.</p>
+          <div class="tags"><span>AI / ML</span><span>PyTorch</span></div>
+        </article>
+
+        <article class="card reveal">
+          <span class="num">CW / 08 · Spring 2026</span>
+          <h3>Course Name — Placeholder</h3>
+          <p>Short description of the course and what you built or learned.</p>
+          <div class="tags"><span>Topic</span></div>
         </article>
       </div>
     </section>
